@@ -1,26 +1,21 @@
 import streamlit as st
-import os
 from quote_page import show_quote_page
 from bmi_calculator import show_bmi_calculator
 
-
-
-def get_full_url():
-    # Pobieramy pełny URL z nagłówków HTTP
-    return st.get_option("server.baseUrlPath")
-
 def main():
-    full_url = get_full_url()
+    # Pobieramy parametr 'page' z URL
+    page = st.query_params.get("page", "")
     
-    if 'quotes.diduknow.org' in full_url:
+    if page == "quotes":
         show_quote_page()
-    elif 'bmi.diduknow.org' in full_url:
+    elif page == "bmi":
         show_bmi_calculator()
     else:
-        st.write("Welcome to the main page of diduknow.org. Please use a specific subdomain.")
+        st.write("Welcome to the main page of diduknow.org.")
+        st.write("Use '?page=quotes' for the quotes page or '?page=bmi' for the BMI calculator.")
 
-    # Dla debugowania
-    st.write(f"Current URL: {full_url}")
+    # Dla celów debugowania
+    st.write(f"Current page: {page}")
 
 if __name__ == "__main__":
     main()
